@@ -1,51 +1,48 @@
-import pygame as pg
+import pygame
 import numpy as np
 from cell_evol import new_grid
+from cell_evol import draw_grid
 import time
 
-# Generate grid
-dim = 100
-gridarray = np.zeros((dim, dim)).astype(int)
-gridarray[50, 50] = 1
-gridarray[50, 51] = 1
-gridarray[50, 52] = 1
+def main():
 
-## 
+    dim = 300
+    twenty_porcent = round(0.20*dim)
+    eighty_porcent = round(0.80*dim)
 
-pg.init()
-screen = pg.display.set_mode((800, 800))
-clock = pg.time.Clock()
+    cell_size = 2  # Size of each cell in pixels
+    # Create a 500x500 grid, padding with zeros for the border
+    gridarray = np.zeros((dim, dim), dtype=int)
+    # Randomly initialize the inner 300x300 area
+    gridarray[twenty_porcent:eighty_porcent, twenty_porcent:eighty_porcent] = np.random.randint(2, size=(eighty_porcent-twenty_porcent, eighty_porcent-twenty_porcent))  # Fill the center
 
-white = (255, 255, 255)
-black = (0, 0, 0)
+    # gridarray[52, 54] = 1  
+    # gridarray[53, 54] = 1  
+    # gridarray[54, 54] = 1  
+    # gridarray[53, 52] = 1  
+    # gridarray[54, 53] = 1  
 
-# Specify the dimensions of the grid
-grid_width = 100  # Number of blocks in width
-grid_height = 100  # Number of blocks in height
+    pygame.init()
+    screen = pygame.display.set_mode((dim * cell_size, dim * cell_size))
+    pygame.display.set_caption("Grid Array Visualization")
+    
+    clock = pygame.time.Clock()
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-# Calculate block size based on screen dimensions
-screen_width, screen_height = screen.get_size()
-block_size = min(screen_width // grid_width, screen_height // grid_height)
+        # Calculate the next generation
+        gridarray = new_grid(gridarray)
+        
+        screen.fill((0, 0, 0))  # Clear screen with black
+        draw_grid(screen, gridarray, cell_size, dim)
+        pygame.display.flip()
+        
+        clock.tick(20)  # Control the speed of the simulation
 
-# Create the colors array
-colors = np.array([white, black])
+if __name__ == "__main__":
+    main()
 
-# Create a surface for the grid
-surface = pg.surfarray.make_surface(colors[gridarray])
-
-# Scale the surface to the calculated block size
-scaled_surface = pg.transform.scale(surface, (grid_width * block_size, grid_height * block_size))
-
-clock = pg.time.Clock()
-frame_count = 0
-update_interval = 3  # Update every 3 seconds
-last_update_time = time.time()  # Store the current time
-
-evolution_count = 0
-evolution_limit = 10
-update_frequency = 10  # Update every 10 frames
-
-
-
-
-pg.quit()

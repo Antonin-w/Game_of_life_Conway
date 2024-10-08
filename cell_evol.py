@@ -20,6 +20,9 @@ def sum_neighbours(matrix, row, column):
     return sum(neighbours)
 
 def cell_evol(matrix, row, column):
+    if row < 2 or row >= matrix.shape[0] - 2 or column < 2 or column >= matrix.shape[1] - 2:
+        return 0  # Cells in the border remain 0
+    
     neighbours_lives = sum_neighbours(matrix, row, column)
     if matrix[row, column] == 1:
         return 0 if neighbours_lives < 2 or neighbours_lives > 3 else 1
@@ -28,55 +31,17 @@ def cell_evol(matrix, row, column):
 
 def new_grid(matrix):
     new_grid = matrix.copy()
-    for row in range(1, matrix.shape[0]-1):
-        for column in range(1, matrix.shape[1]-1):
+    for row in range(1, matrix.shape[0]):
+        for column in range(1, matrix.shape[1]):
             new_grid[row, column] = cell_evol(matrix, row, column)
 
     return new_grid
 
-
-def draw_grid(screen, grid, cell_size):
-    for row in range(grid.shape[0]):
-        for column in range(grid.shape[1]):
+def draw_grid(screen, grid, cell_size, dim):
+    twenty_porcent = round(0.20*dim)
+    eighty_porcent = round(0.80*dim)
+    for row in range(twenty_porcent, eighty_porcent):  # Display only rows 100 to 399
+        for column in range(twenty_porcent, eighty_porcent):  # Display only columns 100 to 399
             color = (255, 255, 255) if grid[row, column] == 0 else (0, 0, 0)
             pygame.draw.rect(screen, color, (column * cell_size, row * cell_size, cell_size, cell_size))
 
-def main():
-    dim = 100
-    cell_size = 6  # Size of each cell in pixels
-    gridarray = np.zeros((dim-2, dim-2))
-    gridarray = np.pad(gridarray, pad_width=1, mode='constant', constant_values=0)  # Add a border of 0s
-
-    gridarray[2, 4] = 1  
-    gridarray[3, 4] = 1  
-    gridarray[4, 4] = 1  
-    gridarray[3, 2] = 1  
-    gridarray[4, 3] = 1  
-
-    pygame.init()
-    screen = pygame.display.set_mode((dim * cell_size, dim * cell_size))
-    pygame.display.set_caption("Grid Array Visualization")
-    
-    clock = pygame.time.Clock()
-    
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-        next_generation = new_grid(gridarray)
-        
-        # Update the grid array with the next generation
-        gridarray[1:-1, 1:-1] = next_generation[1:-1, 1:-1]
-        gridarray[-1, :] = 0  # Last row
-        gridarray[:, -1] = 0  # Last column
-
-        screen.fill((0, 0, 0))  # Clear screen with black
-        draw_grid(screen, gridarray, cell_size)
-        pygame.display.flip()
-        
-        clock.tick(30)  # Control the speed of the simulation
-
-if __name__ == "__main__":
-    main()
