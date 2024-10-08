@@ -4,7 +4,6 @@
 # Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
 import numpy as np
-import pygame
 import sys
 
 def sum_neighbours(matrix, row, column):
