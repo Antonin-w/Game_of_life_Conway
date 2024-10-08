@@ -38,10 +38,10 @@ def new_grid(matrix):
     return new_grid
 
 def draw_grid(screen, grid, cell_size, dim):
-    twenty_porcent = round(0.20*dim)
-    eighty_porcent = round(0.80*dim)
-    for row in range(twenty_porcent, eighty_porcent):  # Display only rows 100 to 399
-        for column in range(twenty_porcent, eighty_porcent):  # Display only columns 100 to 399
+    twenty_percent = round(0.20*dim)
+    eighty_percent = round(0.80*dim)
+    for row in range(twenty_percent, eighty_percent): 
+        for column in range(twenty_percent, eighty_percent):  
             color = (255, 255, 255) if grid[row, column] == 0 else (0, 0, 0)
             pygame.draw.rect(screen, color, (column * cell_size, row * cell_size, cell_size, cell_size))
 
