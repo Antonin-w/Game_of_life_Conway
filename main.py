@@ -1,7 +1,6 @@
 import numpy as np
 from PIL import Image
 from cell_evol import new_grid
-from cell_evol import draw_grid
 
 def main():
 
