@@ -1,13 +1,12 @@
 import numpy as np
+from PIL import Image
 from cell_evol import new_grid
 from cell_evol import draw_grid
-import time
-from PIL import Image
 
 def main():
 
     dim = 200
-    scale_factor = 8 
+    scale_factor = 6
     num_iterations = 1000
 
     twenty_percent = round(0.20*dim)
@@ -16,24 +15,16 @@ def main():
     gridarray = np.zeros((dim, dim), dtype=int)
     gridarray[twenty_percent:eighty_percent, twenty_percent:eighty_percent] = np.random.randint(2, size=(eighty_percent-twenty_percent, eighty_percent-twenty_percent))  # Fill the center
 
-    # gridarray[52, 54] = 1  
-    # gridarray[53, 54] = 1  
-    # gridarray[54, 54] = 1  
-    # gridarray[53, 52] = 1  
-    # gridarray[54, 53] = 1  
-    
     pillow_frames = []
 
     for _ in range(num_iterations):
-        # Calculate the next generation
         gridarray = new_grid(gridarray)
             
         central_frame = gridarray[twenty_percent:eighty_percent, twenty_percent:eighty_percent]
 
-        # Convert grid to an RGB frame directly from the central_frame
         frame = np.zeros((central_frame.shape[0], central_frame.shape[1], 3), dtype=np.uint8)
-        frame[central_frame == 1] = [255, 255, 255]  # Set white for live cells
-        frame[central_frame == 0] = [0, 0, 0]  # Set black for dead cells
+        frame[central_frame == 1] = [255, 255, 255]  # white for live cells
+        frame[central_frame == 0] = [0, 0, 0]  # black for dead cells
 
         img = Image.fromarray(frame)
         img = img.resize(((eighty_percent - twenty_percent) * scale_factor, (eighty_percent - twenty_percent) * scale_factor), Image.NEAREST)
