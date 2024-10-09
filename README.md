@@ -1,8 +1,10 @@
 # Conway's Game of Life
 
 ### Soup generated - 1000 generations 
-![](simulation_high_quality.gif)
 
+<p align="center">
+  <img src="simulation_high_quality.gif" alt="animated" />
+</p>
 
 [Wikipedia's rules of Conway's Game of Life](https://conwaylife.com/wiki/Conway%27s_Game_of_Life)
 
