@@ -12,6 +12,4 @@
 > * Any live cell with two or three live neighbours lives, unchanged, to the next generation.
 > * Any dead cell with exactly three live neighbours will come to life.
 >
-> Animated evolution of a pattern known as the two-glider octomino, with highlighted envelope (cells that were alive at some earlier point)
-(click above to open LifeViewer)
-The initial pattern constitutes the 'seed' of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed — births and deaths happen simultaneously, and the discrete moment at which this happens is sometimes called a tick. (In other words, each generation is a pure function of the one before.) The rules continue to be applied repeatedly to create further generations."
+> The initial pattern constitutes the 'seed' of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed — births and deaths happen simultaneously, and the discrete moment at which this happens is sometimes called a tick. (In other words, each generation is a pure function of the one before.) The rules continue to be applied repeatedly to create further generations."
